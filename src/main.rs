@@ -336,7 +336,7 @@ pub fn build(
         return Err(anyhow!(format!("No lockfile found at {}", lockfile)));
     }
 
-    let build_command = if bpf_flag { "build-bpf" } else { "build-sbf" };
+    let build_command = if bpf_flag { "cargo-build-bpf" } else { "cargo-build-sbf" };
 
     let (major, minor, patch) = get_pkg_version_from_cargo_lock("solana-program", &lockfile)?;
 
@@ -472,7 +472,7 @@ pub fn build(
 
     std::process::Command::new("docker")
         .args(["exec", "-w", &build_path, &container_id])
-        .args(["cargo", build_command])
+        .args([build_command])
         .args(["--"])
         .args(locked_args)
         .args(manifest_path_filter)
